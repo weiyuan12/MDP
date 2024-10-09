@@ -1,0 +1,185 @@
+17:36:23 **** Incremental Build of configuration Debug for project rtostest ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I"C:/Users/swrgo/Desktop/aNTU STUFF/_RunHere_Task2/rtostest/PeripheralDriver/Inc" -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_TIM_IC_CaptureCallback':
+../Core/Src/main.c:874:28: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  874 |  HAL_UART_Transmit(&huart3,"Skipping \n\r"  , 20,0xFFFF);
+      |                            ^~~~~~~~~~~~~~~
+      |                            |
+      |                            char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'moveCarSlideRight':
+../Core/Src/main.c:962:8: warning: implicit declaration of function 'finishCheck' [-Wimplicit-function-declaration]
+  962 |  while(finishCheck());
+      |        ^~~~~~~~~~~
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:1394:11: warning: unused variable 'ch' [-Wunused-variable]
+ 1394 |   uint8_t ch = 'A';
+      |           ^~
+../Core/Src/main.c:1383:11: warning: unused variable 'tick' [-Wunused-variable]
+ 1383 |  uint32_t tick = HAL_GetTick();
+      |           ^~~~
+../Core/Src/main.c:1378:10: warning: unused variable 'msg' [-Wunused-variable]
+ 1378 |  uint8_t msg [20];
+      |          ^~~
+../Core/Src/main.c: In function 'StartMotorTask':
+../Core/Src/main.c:1495:8: warning: implicit declaration of function 'abs' [-Wimplicit-function-declaration]
+ 1495 |    if (abs(leftEncoderVal)<abs(rightEncoderVal)){
+      |        ^~~
+../Core/Src/main.c:1495:12: warning: 'abs' argument 1 promotes to 'int32_t' {aka 'long int'} where 'int' is expected in a call to built-in function declared without prototype [-Wbuiltin-declaration-mismatch]
+ 1495 |    if (abs(leftEncoderVal)<abs(rightEncoderVal)){
+      |            ^~~~~~~~~~~~~~
+<built-in>: note: built-in 'abs' declared here
+../Core/Src/main.c:1495:32: warning: 'abs' argument 1 promotes to 'int32_t' {aka 'long int'} where 'int' is expected in a call to built-in function declared without prototype [-Wbuiltin-declaration-mismatch]
+ 1495 |    if (abs(leftEncoderVal)<abs(rightEncoderVal)){
+      |                                ^~~~~~~~~~~~~~~
+<built-in>: note: built-in 'abs' declared here
+../Core/Src/main.c: In function 'StartOledTask':
+../Core/Src/main.c:1578:2: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+ 1578 |  sprintf(clear, "USik: %d-%d \0", (int)Distance, nexttask);
+      |  ^~~~~~~
+../Core/Src/main.c:1578:2: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   25 | #include "oled.h"
+  +++ |+#include <stdio.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:1578:10: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+ 1578 |  sprintf(clear, "USik: %d-%d \0", (int)Distance, nexttask);
+      |          ^~~~~
+      |          |
+      |          uint8_t * {aka unsigned char *}
+../Core/Src/main.c:1578:10: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+../Core/Src/main.c:1578:30: warning: embedded '\0' in format [-Wformat-contains-nul]
+ 1578 |  sprintf(clear, "USik: %d-%d \0", (int)Distance, nexttask);
+      |                              ^~
+../Core/Src/main.c:1586:10: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+ 1586 |  sprintf(righty,"Gyro:%3d.%3d \0", (int)total_angle, decimals);
+      |          ^~~~~~
+      |          |
+      |          uint8_t * {aka unsigned char *}
+../Core/Src/main.c:1586:10: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+../Core/Src/main.c:1586:31: warning: embedded '\0' in format [-Wformat-contains-nul]
+ 1586 |  sprintf(righty,"Gyro:%3d.%3d \0", (int)total_angle, decimals);
+      |                               ^~
+../Core/Src/main.c:1593:10: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+ 1593 |  sprintf(lefty, "Rec: %d/%d  \0", movebackR,movebackL);
+      |          ^~~~~
+      |          |
+      |          uint8_t * {aka unsigned char *}
+../Core/Src/main.c:1593:10: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+../Core/Src/main.c:1593:30: warning: embedded '\0' in format [-Wformat-contains-nul]
+ 1593 |  sprintf(lefty, "Rec: %d/%d  \0", movebackR,movebackL);
+      |                              ^~
+../Core/Src/main.c:1597:10: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+ 1597 |  sprintf(motorD, "Enc: %d/%d  \0", rightEncoderVal,rightEncoderVal);
+      |          ^~~~~~
+      |          |
+      |          uint8_t * {aka unsigned char *}
+../Core/Src/main.c:1597:10: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+../Core/Src/main.c:1597:25: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int32_t' {aka 'long int'} [-Wformat=]
+ 1597 |  sprintf(motorD, "Enc: %d/%d  \0", rightEncoderVal,rightEncoderVal);
+      |                        ~^          ~~~~~~~~~~~~~~~
+      |                         |          |
+      |                         int        int32_t {aka long int}
+      |                        %ld
+../Core/Src/main.c:1597:28: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int32_t' {aka 'long int'} [-Wformat=]
+ 1597 |  sprintf(motorD, "Enc: %d/%d  \0", rightEncoderVal,rightEncoderVal);
+      |                           ~^                       ~~~~~~~~~~~~~~~
+      |                            |                       |
+      |                            int                     int32_t {aka long int}
+      |                           %ld
+../Core/Src/main.c:1597:31: warning: embedded '\0' in format [-Wformat-contains-nul]
+ 1597 |  sprintf(motorD, "Enc: %d/%d  \0", rightEncoderVal,rightEncoderVal);
+      |                               ^~
+../Core/Src/main.c:1603:10: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+ 1603 |  sprintf(check, "K: %c %c %c%c%c \0", aRxBuffer[0], aRxBuffer[1], aRxBuffer[2], aRxBuffer[3], aRxBuffer[4]);
+      |          ^~~~~
+      |          |
+      |          uint8_t * {aka unsigned char *}
+../Core/Src/main.c:1603:10: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+../Core/Src/main.c:1603:34: warning: embedded '\0' in format [-Wformat-contains-nul]
+ 1603 |  sprintf(check, "K: %c %c %c%c%c \0", aRxBuffer[0], aRxBuffer[1], aRxBuffer[2], aRxBuffer[3], aRxBuffer[4]);
+      |                                  ^~
+../Core/Src/main.c:1570:10: warning: unused variable 'debugMsg' [-Wunused-variable]
+ 1570 |  uint8_t debugMsg[20] = "hello\0";
+      |          ^~~~~~~~
+../Core/Src/main.c:1564:10: warning: unused variable 'hello' [-Wunused-variable]
+ 1564 |  uint8_t hello [20] = {0};
+      |          ^~~~~
+../Core/Src/main.c: In function 'StartRpiTask':
+../Core/Src/main.c:1679:34: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+ 1679 |       HAL_UART_Transmit(&huart3, "A", 1,0xFFFF);
+      |                                  ^~~
+      |                                  |
+      |                                  char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:1626:6: warning: variable 'Ryan_sign_fuckmylife' set but not used [-Wunused-but-set-variable]
+ 1626 |  int Ryan_sign_fuckmylife = 1;
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:1625:7: warning: unused variable 'old' [-Wunused-variable]
+ 1625 |  char old = ')';
+      |       ^~~
+../Core/Src/main.c:1624:7: warning: unused variable 'ch' [-Wunused-variable]
+ 1624 |  char ch = 'A';
+      |       ^~
+../Core/Src/main.c: In function 'StartBulleyesTask':
+../Core/Src/main.c:1831:2: warning: implicit declaration of function 'strncpy' [-Wimplicit-function-declaration]
+ 1831 |  strncpy(instructBuffer[0],"Sxxxx"  , 5);
+      |  ^~~~~~~
+../Core/Src/main.c:1831:2: warning: incompatible implicit declaration of built-in function 'strncpy'
+../Core/Src/main.c:26:1: note: include '<string.h>' or provide a declaration of 'strncpy'
+   25 | #include "oled.h"
+  +++ |+#include <string.h>
+   26 | /* USER CODE END Includes */
+../Core/Src/main.c:1818:6: warning: unused variable 'j' [-Wunused-variable]
+ 1818 |  int j=0;
+      |      ^
+../Core/Src/main.c: In function 'StartJukeTask':
+../Core/Src/main.c:2003:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+ 2003 |  HAL_UART_Transmit(&huart3, "P", 1,0xFFFF);
+      |                             ^~~
+      |                             |
+      |                             char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:406,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:1999:6: warning: unused variable 'i' [-Wunused-variable]
+ 1999 |  int i=0;
+      |      ^
+../Core/Src/main.c: In function 'StartBulleyesTask':
+../Core/Src/main.c:1831:2: warning: 'strncpy' output truncated before terminating nul copying 5 bytes from a string of the same length [-Wstringop-truncation]
+ 1831 |  strncpy(instructBuffer[0],"Sxxxx"  , 5);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:1832:2: warning: 'strncpy' output truncated before terminating nul copying 5 bytes from a string of the same length [-Wstringop-truncation]
+ 1832 |  strncpy(instructBuffer[1],"Lxxxx"  , 5);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "rtostest.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\swrgo\Desktop\aNTU STUFF\_RunHere_Task2\rtostest\STM32F407VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtostest.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtostest.elf
+ 
+arm-none-eabi-size   rtostest.elf 
+arm-none-eabi-objdump -h -S  rtostest.elf  > "rtostest.list"
+   text	   data	    bss	    dec	    hex	filename
+  63128	    512	  22536	  86176	  150a0	rtostest.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtostest.list
+ 
+
+17:36:24 Build Finished. 0 errors, 35 warnings. (took 1s.83ms)
+
