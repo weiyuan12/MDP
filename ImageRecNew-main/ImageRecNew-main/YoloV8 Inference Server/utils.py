@@ -30,7 +30,7 @@ def stitch_images():
     elif config.TASK_NO == 2:
         imgFolder = './runs/detect/Task2' # This is for task 2
 
-    stitchedPath = os.path.join('YoloV8 Inference Server', 'runs', f'stitched-{int(time.time())}.jpeg')
+    #stitchedPath = os.path.join('YoloV8 Inference Server', 'runs', f'stitched-{int(time.time())}.jpeg')
     
     # List all directories inside runs/detect
     dirPaths = [d for d in os.listdir(imgFolder) if os.path.isdir(os.path.join(imgFolder, d))]

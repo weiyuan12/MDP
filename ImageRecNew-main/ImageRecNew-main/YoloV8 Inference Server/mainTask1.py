@@ -216,7 +216,6 @@ class ImageProcessor:
                         # Save the updated image
                         cv2.imwrite(img_path, predicted_img)
 
-                        stitch_images()
                 # Send the appropriate reply to RPi
                 if successful_detection:
                     self.image_hub.send_reply(image_id.encode("utf-8"))
@@ -232,3 +231,4 @@ class ImageProcessor:
 if __name__ == "__main__":
     with ImageProcessor() as processor:
         processor.run()
+        stitch_images()
