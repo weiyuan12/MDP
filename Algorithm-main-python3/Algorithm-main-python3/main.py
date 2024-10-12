@@ -93,9 +93,9 @@ class Main:
         #d = 'ALG|2,18,S,0|5,18,S,1|8,18,S,2|11,18,S,3|14,18,S,4;'
         print(f"Received data from RPI: {d}")
         to_return = []
-        if d[0:4] == "ALG|":
+        if d[0:4] == "ALG:":
             d = d[4:]
-            d = d.split("|")
+            d = d.split(";")
             # now split into separate obstacles
             # last will be split into empty string therefore ignore
             for x in range(0, len(d) - 1):
