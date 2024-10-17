@@ -34,14 +34,22 @@ class ImageProcessor:
         # Iterate over the contents of the directory
         for filename in os.listdir(directory):
             file_path = os.path.join(directory, filename)
-
-            # Check if it is a file (and not a directory)
             if os.path.isfile(file_path):
                 try:
-                    #os.remove(file_path)  # Delete the file
                     print(f"[Delete Files] Deleted file: {filename}")
                 except Exception as e:
                     print(f"[Delete Files] Error deleting file '{filename}': {e}")
+        for folder_name in os.listdir(directory):
+            folder_path = os.path.join(directory, folder_name)
+            if(folder_name == "Task2"):
+                print("[Cleanup] : Skipping Task2 folder")
+            elif os.path.isdir(folder_path) and folder_name.startswith("predict"):
+                try:
+                    # Remove the folder and all its contents
+                    shutil.rmtree(folder_path)
+                    print(f"[Cleanup] Deleted folder: {folder_name}")
+                except Exception as e:
+                    print(f"[Cleanup] Error deleting folder '{folder_name}': {e}")
     def load_model(self):
         """
         Load the model from the local directory.
@@ -275,5 +283,5 @@ if __name__ == "__main__":
     with ImageProcessor() as processor:
         processor.run()
         stitch_images()
-        #processor.cleanup_predict_folders()
+        processor.cleanup_predict_folders()
 

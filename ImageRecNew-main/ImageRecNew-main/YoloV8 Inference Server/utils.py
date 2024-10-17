@@ -45,7 +45,7 @@ def stitch_images():
                 imgPaths.append(image0Path)
     elif config.TASK_NO == 2:
         imgPaths = [os.path.join(imgFolder, img) for img in os.listdir(imgFolder) if (img.endswith('.jpg') and img.startswith("image"))]
-        print("[DEBUG] Stitching From image Paths")
+        print("[DEBUG] Stitching From image Paths ", imgPaths)
 
     images = [Image.open(x) for x in imgPaths]
     
