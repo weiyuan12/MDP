@@ -11,6 +11,38 @@ import config
 # The `ImageProcessor` class is a Python class that processes and predicts images received from a
 # Raspberry Pi using a YOLOv8 model.
 class ImageProcessor:
+    imageDict = {
+        "1": "11",
+        "2": "12",
+        "3": "13",
+        "4": "14",
+        "5": "15",
+        "6": "16",
+        "7": "17",
+        "8": "18",
+        "9": "19",
+        "A": "20",
+        "B": "21",
+        "C": "22",
+        "D": "23",
+        "E": "24",
+        "F": "25",
+        "G": "26",
+        "H": "27",
+        "S": "28",
+        "T": "29",
+        "U": "30",
+        "V": "31",
+        "W": "32",
+        "X": "33",
+        "Y": "34",
+        "Z": "35",
+        "Up_arrow": "36",
+        "Down_arrow": "37",
+        "Right_arrow": "38",
+        "Left_arrow": "39",
+        "Circle": "40",
+    }
     def __enter__(self):
         return self
 
@@ -231,7 +263,9 @@ class ImageProcessor:
                         cv2.imwrite(img_path, predicted_img)
 
                 # Send the appropriate reply to RPi
+                
                 if successful_detection:
+                    image_id = self.imageDict[image_id]
                     self.image_hub.send_reply(image_id.encode("utf-8"))
                     print(f"[PC] Sent image_id {image_id} to RPi")
                 else:
