@@ -30,7 +30,7 @@ def stitch_images():
     elif config.TASK_NO == 2:
         imgFolder = './runs/detect/Task2' # This is for task 2
 
-    #stitchedPath = os.path.join('YoloV8 Inference Server', 'runs', f'stitched-{int(time.time())}.jpeg')
+    stitchedPath = os.path.join('runs', f'stitched-{int(time.time())}.jpeg')
     
     # List all directories inside runs/detect
     dirPaths = [d for d in os.listdir(imgFolder) if os.path.isdir(os.path.join(imgFolder, d))]
@@ -38,12 +38,14 @@ def stitch_images():
     imgPaths = []
 
     if config.TASK_NO == 1:
+        print("[DEBUG] Stitching from dirPaths: " , dirPaths)
         for dir in dirPaths:
             image0Path = os.path.join(imgFolder, dir, "image0.jpg")
             if os.path.exists(image0Path):
                 imgPaths.append(image0Path)
     elif config.TASK_NO == 2:
-        imgPaths = [os.path.join(imgFolder, img) for img in os.listdir(imgFolder) if img.endswith('.jpg')]
+        imgPaths = [os.path.join(imgFolder, img) for img in os.listdir(imgFolder) if (img.endswith('.jpg') and img.startswith("image"))]
+        print("[DEBUG] Stitching From image Paths")
 
     images = [Image.open(x) for x in imgPaths]
     
@@ -81,11 +83,11 @@ def get_model_path(current_directory: str) -> str:
     """
     Returns the path to the model based on the current directory.
     """
-    if "ImageRec" in current_directory and not current_directory.endswith("YoloV8 Inference Server"):
-        model_path = os.path.join(current_directory, "YoloV8 Inference Server", "Weights", "bestv2.pt")
-    else:
-        model_path = os.path.join(current_directory, "Weights", "bestv2.pt")
-
+    if config.TASK_NO == 1:
+        model_path = os.path.join(current_directory, "Weights", "background_agnostic_final.pt")
+    elif config.TASK_NO == 2:
+       model_path = os.path.join(current_directory, "Weights", "task2_yolov8-large.pt")
+    print("[DEBUG] Using model: ", model_path)
     return model_path
 
 def get_latest_image_path(directory: str) -> str:

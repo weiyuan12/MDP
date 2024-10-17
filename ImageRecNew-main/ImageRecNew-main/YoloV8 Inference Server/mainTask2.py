@@ -29,6 +29,19 @@ class ImageProcessor:
             "[PC] ImageHub Server running, ready to receive requests for Image API & make predictions!"
         )
 
+    def cleanup_predict_folders(self):
+        directory = os.path.join(os.getcwd(), 'runs/detect/Task2')
+        # Iterate over the contents of the directory
+        for filename in os.listdir(directory):
+            file_path = os.path.join(directory, filename)
+
+            # Check if it is a file (and not a directory)
+            if os.path.isfile(file_path):
+                try:
+                    #os.remove(file_path)  # Delete the file
+                    print(f"[Delete Files] Deleted file: {filename}")
+                except Exception as e:
+                    print(f"[Delete Files] Error deleting file '{filename}': {e}")
     def load_model(self):
         """
         Load the model from the local directory.
@@ -162,7 +175,7 @@ class ImageProcessor:
 
                 # Make prediction on the processed image
                 image_id, max_bbox, max_prob = self.predict_image(
-                    processed_image, slug
+                    image, slug
                 )
 
                 # Check the prediction result
@@ -187,7 +200,8 @@ class ImageProcessor:
          
                 if img_path:
                     predicted_img = cv2.imread(img_path)
-
+                    print("[DEBUG] predicted_img: ", predicted_img)
+                    print("[DEBUG] max_bbox: ", max_bbox)
                     # Check if there's a bbox with max confidence, and if so, draw it on the image
                     if max_bbox is not None:
                         x1, y1, x2, y2 = map(int, max_bbox)
@@ -222,15 +236,21 @@ class ImageProcessor:
 
                         # Save the updated image
                         cv2.imwrite(img_path, predicted_img)
-
+                        print("[DEBUG] saved img_path: ", img_path)
                         # Display the image with bounding boxes
-                        cv2.imshow("Predicted Image", predicted_img)
-                        cv2.waitKey(1)
+                        # cv2.imshow("Predicted Image", predicted_img)
+                        # cv2.waitKey(1)
 
+                image_dict = {
+                    "Left_arrow": "39",
+                    "Right_arrow": "38"
+                }
+                if(image_id == "Left_arrow" or image_id == "Right_arrow"):
+                    image_id = image_dict[image_id]
                 # Shift left right images to Task2 folder
                 if image_id in ['38', '39'] :
                     # Create new directory if don't exist
-                    destination_path = os.path.join(os.getcwd(), "YoloV8 Inference Server", "runs", "detect", "Task2")
+                    destination_path = os.path.join(os.getcwd(),"runs", "detect", "Task2")
                     if not os.path.exists(destination_path):
                         os.makedirs(destination_path)
                     
@@ -253,20 +273,7 @@ class ImageProcessor:
 
 if __name__ == "__main__":
     with ImageProcessor() as processor:
-        # Start the run method in a separate process
-        process = Process(target=processor.run)
-        process.start()
+        processor.run()
+        stitch_images()
+        #processor.cleanup_predict_folders()
 
-        # while True:
-        #     user_input = (
-        #         input("Do you want to end the process? (y/n): \n").strip().lower()
-        #     )
-        #     if user_input in ["y", "yes"]:
-        print("[PC] Stopping the Image Processor...")
-        cv2.destroyAllWindows()
-        # process.terminate()  # Terminate the process
-        process.join()  # Wait for the process to finish
-        print("[PC] Stitching Images...")
-        stitch_images()  # Then, stitch the images
-        print("[PC] Finished Stitching!")
-                # break

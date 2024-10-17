@@ -7,6 +7,7 @@ from multiprocessing import Process
 from utils import *
 import config
 
+
 # The `ImageProcessor` class is a Python class that processes and predicts images received from a
 # Raspberry Pi using a YOLOv8 model.
 class ImageProcessor:
@@ -17,6 +18,20 @@ class ImageProcessor:
         # Clean up operations can be added here, if needed
         # For now, we will leave it empty as you didn't specify any
         pass
+    def cleanup_predict_folders(prefix="predict"):
+        directory = os.path.join(os.getcwd(), 'runs/detect')
+        # Iterate over the contents of the directory
+        for folder_name in os.listdir(directory):
+            folder_path = os.path.join(directory, folder_name)
+
+            # Check if it is a folder and starts with the prefix 'predict'
+            if os.path.isdir(folder_path) and folder_name.startswith("predict"):
+                try:
+                    # Remove the folder and all its contents
+                    shutil.rmtree(folder_path)
+                    print(f"[Cleanup] Deleted folder: {folder_name}")
+                except Exception as e:
+                    print(f"[Cleanup] Error deleting folder '{folder_name}': {e}")
 
     def __init__(self, port=config.DEFAULT_PORT):
         # Uncomment below if you want to load the model during initialization
@@ -143,10 +158,8 @@ class ImageProcessor:
                 successful_detection = False
 
                 # Default values for alpha and beta
-                alpha = 1.0
+                alpha = 1
                 beta = 0
-
-                print("[PC] Processing image...")
 
                 processed_image = self.process_image(image, slug, alpha, beta)
                 print(f"[PC] Image processed with alpha: {alpha} and beta: {beta}!")
@@ -154,7 +167,7 @@ class ImageProcessor:
 
                 # Make prediction on the processed image
                 image_id, max_bbox, max_prob = self.predict_image(
-                    processed_image, slug
+                    image, slug
                 )
 
                 # Check the prediction result
@@ -168,16 +181,17 @@ class ImageProcessor:
 
                 # Move images after all prediction attempts or after a successful prediction
                 # print(f"current directory: {os.getcwd()}")
-                #base_dir = os.path.join(os.getcwd(), "YoloV8 Inference Server", "runs", "detect")
-                base_dir = os.getcwd()
+                base_dir = os.path.join(os.getcwd(), "runs", "detect")
+                #base_dir = os.getcwd()
                 filenames_with_slug = [
                     f.replace(".jpg", f"_{slug}.jpg")
                     for f in ["received_image.jpg", "resized_image.jpg"]
                 ]
+                print("[DEBUG] Moving files: ", filenames_with_slug, "  To Directory: ", base_dir)
                 move_images_to_latest_directory(base_dir, filenames_with_slug)
                 # Get the path to the image in the latest directory
                 img_path = get_latest_image_path("runs/detect")
-
+                print("[DEBUG] Image Path: ", filenames_with_slug, "  To Directory: ", img_path)
                 if img_path:
                     predicted_img = cv2.imread(img_path)
 
@@ -232,3 +246,4 @@ if __name__ == "__main__":
     with ImageProcessor() as processor:
         processor.run()
         stitch_images()
+        processor.cleanup_predict_folders()
