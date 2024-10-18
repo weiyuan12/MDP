@@ -79,14 +79,14 @@ def stitch_images():
     stitchedImg.save(stitchedPath)
     return stitchedImg
 
-def get_model_path(current_directory: str) -> str:
+def get_model_path(current_directory: str, model_name) -> str:
     """
     Returns the path to the model based on the current directory.
     """
     if config.TASK_NO == 1:
         model_path = os.path.join(current_directory, "Weights", "background_agnostic_final.pt")
     elif config.TASK_NO == 2:
-       model_path = os.path.join(current_directory, "Weights", "task2_yolov8-large.pt")
+       model_path = os.path.join(current_directory, "Weights", model_name)
     print("[DEBUG] Using model: ", model_path)
     return model_path
 

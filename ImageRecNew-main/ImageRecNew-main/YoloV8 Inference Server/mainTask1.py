@@ -1,6 +1,7 @@
 import imagezmq
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 import multiprocessing
 from multiprocessing import Process
@@ -69,6 +70,7 @@ class ImageProcessor:
         # Uncomment below if you want to load the model during initialization
         print("[PC] Loading model weights...")
         self.model = self.load_model()
+        #self.model2 = self.load_yolov5_model()
         print("[PC] YoloV8 Model weights loaded!")
         self.port = port
         print(
@@ -80,10 +82,17 @@ class ImageProcessor:
         Load the model from the local directory.
         """
         current_directory = os.getcwd()
-        model_path = get_model_path(current_directory)
+        model_path = get_model_path(current_directory, "background_agnostic_final.pt")
         
         model = YOLO(model_path)
         return model
+    
+    def load_yolov5_model(self):
+        """
+        Load YOLOv5 model from PyTorch Hub or local path.
+        """
+        model_yolov5 = YOLO("/Weights/task1_yolov5.pt")  # Can specify path or use yolov5s
+        return model_yolov5
 
     def receive_image(self, slug):
         try:
@@ -110,7 +119,7 @@ class ImageProcessor:
         Process the image with optional parameters for contrast (alpha) and brightness (beta)
         """
 
-        image_resized = cv2.resize(image, (416, 416))
+        image_resized = cv2.resize(image, (640, 640))
         resized_filename = f"resized_image_{slug}.jpg"
         cv2.imwrite(resized_filename, image_resized)
 
@@ -119,7 +128,6 @@ class ImageProcessor:
     def predict_image(self, image, slug):
         project_dir = "runs/detect"
         name_dir = f"predict{slug}"
-
         # To hide confidence of predictions
         results = self.model(
             image,
@@ -199,7 +207,7 @@ class ImageProcessor:
 
                 # Make prediction on the processed image
                 image_id, max_bbox, max_prob = self.predict_image(
-                    image, slug
+                    processed_image, slug
                 )
 
                 # Check the prediction result
